@@ -1,0 +1,87 @@
+{
+  "pluginAlias": "knx-smoke-sensor",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "ip": {
+      "title": "KNX Router or Interface",
+      "type": "string",
+      "placeholder": "224.0.23.12",
+      "description": "IP of the KNX Router."
+    },
+    "port": {
+      "title": "KNX Port",
+      "type": "string",
+      "placeholder": "3671",
+      "description": "KNX Port"
+    },
+    "devices": {
+      "type": "array",
+      "items": {
+        "title": "Smoke Sensors",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "required": true,
+            "placeholder": "Display Name for Smoke Sensor"
+          },
+          "listen_smoke_detected": {
+            "title": "Smoke Detected",
+            "type": "string",
+            "required": true,
+            "placeholder": "1/1/1",
+            "pattern": "^[0-9]{1,4}/[0-9]{1,4}/[0-9]{1,4}$"
+          },
+          "listen_status_fault": {
+            "title": "Status Fault",
+            "type": "string",
+            "required": false,
+            "placeholder": "1/1/1",
+            "pattern": "^[0-9]{1,4}/[0-9]{1,4}/[0-9]{1,4}$"
+          },
+          "listen_status_tampered": {
+            "title": "Status Tampered",
+            "type": "string",
+            "required": false,
+            "placeholder": "1/1/1",
+            "pattern": "^[0-9]{1,4}/[0-9]{1,4}/[0-9]{1,4}$"
+          },
+          "listen_low_battery": {
+            "title": "Status Low Battery",
+            "type": "string",
+            "required": false,
+            "placeholder": "1/1/1",
+            "pattern": "^[0-9]{1,4}/[0-9]{1,4}/[0-9]{1,4}$"
+          }
+        }
+      }
+    }
+  },
+  "layout": [
+    {
+      "key": "devices",
+      "type": "array",
+      "orderable": false,
+      "buttonText": "Add Smoke Sensor",
+      "items": [
+        "devices[].name",
+        "devices[].listen_smoke_detected",
+        "devices[].listen_status_fault",
+        "devices[].listen_status_tampered",
+        "devices[].listen_low_battery"
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Global",
+      "expandable": true,
+      "expanded": false,
+      "items": [
+        "ip",
+        "port"
+      ]
+    }
+  ]
+}
