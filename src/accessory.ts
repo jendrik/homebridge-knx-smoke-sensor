@@ -1,10 +1,10 @@
-import { AccessoryConfig, AccessoryPlugin, Service } from 'homebridge';
+import type { AccessoryConfig, AccessoryPlugin, Service } from 'homebridge';
 
 import { Datapoint } from 'knx';
 
-import { PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_DISPLAY_NAME } from './settings';
+import { PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_DISPLAY_NAME } from './settings.js';
 
-import { SmokeSensorPlatform } from './platform';
+import type { SmokeSensorPlatform } from './platform.js';
 
 
 export class SmokeSensorAccessory implements AccessoryPlugin {
@@ -55,8 +55,6 @@ export class SmokeSensorAccessory implements AccessoryPlugin {
     });
 
     if (this.listen_status_fault !== undefined) {
-      //this.smokeSensorService.addCharacteristic(platform.Characteristic.StatusFault);
-
       const dp_listen_status_fault = new Datapoint({
         ga: this.listen_status_fault,
         dpt: 'DPT1.001',
@@ -70,8 +68,6 @@ export class SmokeSensorAccessory implements AccessoryPlugin {
     }
 
     if (this.listen_status_tampered !== undefined) {
-      //this.smokeSensorService.addCharacteristic(platform.Characteristic.StatusTampered);
-
       const dp_listen_status_tampered = new Datapoint({
         ga: this.listen_status_tampered,
         dpt: 'DPT1.001',
@@ -79,14 +75,12 @@ export class SmokeSensorAccessory implements AccessoryPlugin {
       }, platform.connection);
 
       dp_listen_status_tampered.on('change', (oldValue: number, newValue: number) => {
-        platform.log.info(`Status Fault: ${newValue}`);
+        platform.log.info(`Status Tampered: ${newValue}`);
         this.smokeSensorService.getCharacteristic(platform.Characteristic.StatusTampered).updateValue(newValue);
       });
     }
 
     if (this.listen_low_battery !== undefined) {
-      //this.smokeSensorService.addCharacteristic(platform.Characteristic.StatusLowBattery);
-
       const dp_listen_low_battery = new Datapoint({
         ga: this.listen_low_battery,
         dpt: 'DPT1.001',
@@ -94,7 +88,7 @@ export class SmokeSensorAccessory implements AccessoryPlugin {
       }, platform.connection);
 
       dp_listen_low_battery.on('change', (oldValue: number, newValue: number) => {
-        platform.log.info(`Status Fault: ${newValue}`);
+        platform.log.info(`Low Battery: ${newValue}`);
         this.smokeSensorService.getCharacteristic(platform.Characteristic.StatusLowBattery).updateValue(newValue);
       });
     }
