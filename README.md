@@ -16,9 +16,9 @@ Homebridge plugin for exposing KNX smoke sensors to Apple HomeKit.
 
 ## Requirements
 
-- [Homebridge](https://homebridge.io) v1.8.0 or later (including v2.0)
-- Node.js 18.20.4+, 20.15.1+, or 22+
-- A KNX IP router or interface on the network
+- [Homebridge](https://homebridge.io) v2.0.0 or later
+- Node.js 22.13.0+ or 24.0.0+
+- A KNX router or interface on the network
 
 ## Installation
 
@@ -59,7 +59,7 @@ Add the platform to your Homebridge `config.json`:
 |--------|----------|---------|-------------|
 | `platform` | Yes | — | Must be `knx-smoke-sensor` |
 | `ip` | No | `224.0.23.12` | IP address of the KNX router or interface |
-| `port` | No | `3671` | KNX port |
+| `port` | No | `3671` | KNXnet/IP port |
 | `devices` | Yes | — | Array of smoke sensor devices |
 
 ### Device options
@@ -67,10 +67,10 @@ Add the platform to your Homebridge `config.json`:
 | Option | Required | Description |
 |--------|----------|-------------|
 | `name` | Yes | Display name in HomeKit |
-| `listen_smoke_detected` | Yes | KNX group address for smoke detection (DPT 1.001) |
-| `listen_status_fault` | No | KNX group address for fault status (DPT 1.001) |
-| `listen_status_tampered` | No | KNX group address for tamper status (DPT 1.001) |
-| `listen_low_battery` | No | KNX group address for low battery status (DPT 1.001) |
+| `listen_smoke_detected` | Yes | KNX group address for smoke detection (DPT1.001) |
+| `listen_status_fault` | No | KNX group address for fault status (DPT1.001) |
+| `listen_status_tampered` | No | KNX group address for tamper status (DPT1.001) |
+| `listen_low_battery` | No | KNX group address for low battery status (DPT1.001) |
 
 All KNX group addresses use the three-level format (e.g. `1/2/3`).
 
