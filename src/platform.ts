@@ -3,6 +3,7 @@ import type { API, StaticPlatformPlugin, Logger, PlatformConfig, AccessoryPlugin
 import { Connection } from 'knx';
 
 import { SmokeSensorAccessory } from './accessory.js';
+import { normalizePlatformConfig, type NormalizedPlatformConfig } from './config.js';
 
 
 export class SmokeSensorPlatform implements StaticPlatformPlugin {
@@ -10,6 +11,7 @@ export class SmokeSensorPlatform implements StaticPlatformPlugin {
   public readonly Characteristic: typeof Characteristic;
   public readonly uuid: typeof uuid;
 
+  public readonly normalizedConfig: NormalizedPlatformConfig;
   public readonly connection: Connection;
 
   private readonly devices: SmokeSensorAccessory[] = [];
@@ -22,10 +24,11 @@ export class SmokeSensorPlatform implements StaticPlatformPlugin {
     this.Service = api.hap.Service;
     this.Characteristic = api.hap.Characteristic;
     this.uuid = api.hap.uuid;
+    this.normalizedConfig = normalizePlatformConfig(config, log);
     // connect
     this.connection = new Connection({
-      ipAddr: config.ip ?? '224.0.23.12',
-      ipPort: config.port ?? 3671,
+      ipAddr: this.normalizedConfig.ip,
+      ipPort: this.normalizedConfig.port,
       handlers: {
         connected: function () {
           log.info('KNX connected');
@@ -37,14 +40,11 @@ export class SmokeSensorPlatform implements StaticPlatformPlugin {
     });
 
     // read devices
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config.devices.forEach((element: any) => {
-      if (element.name !== undefined && element.listen_smoke_detected) {
-        this.devices.push(new SmokeSensorAccessory(this, element));
-      }
-    });
+    for (const device of this.normalizedConfig.devices) {
+      this.devices.push(new SmokeSensorAccessory(this, device));
+    }
 
-    log.info('finished initializing!');
+    log.info(`finished initializing ${this.devices.length} accessories!`);
   }
 
   accessories(callback: (foundAccessories: AccessoryPlugin[]) => void): void {
