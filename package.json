@@ -13,14 +13,15 @@
     "url": "https://github.com/jendrik/homebridge-knx-smoke-sensor/issues"
   },
   "engines": {
-    "node": "^18.20.4 || ^20.15.1 || ^22",
-    "homebridge": "^1.8.0 || ^2.0.0-beta.0"
+    "node": "^22.13.0 || ^24.0.0",
+    "homebridge": "^2.0.0"
   },
   "main": "dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc",
     "lint": "eslint . --max-warnings=0",
-    "prepublishOnly": "npm run lint && npm run build",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepublishOnly": "npm run lint && npm test",
     "watch": "npm run build && npm link && nodemon"
   },
   "keywords": [
@@ -31,14 +32,13 @@
     "@eslint/js": "^9",
     "@types/node": "^22",
     "eslint": "^9",
-    "homebridge": "^2.0.0-beta.0",
+    "homebridge": "^2.0.2",
     "nodemon": "^3",
     "rimraf": "^6",
-    "ts-node": "^10.9.2",
     "typescript": "^5",
     "typescript-eslint": "^8"
   },
   "dependencies": {
-    "knx": "^2.5.2"
+    "knx": "^2.5.4"
   }
 }
