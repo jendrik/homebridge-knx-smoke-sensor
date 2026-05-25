@@ -2,7 +2,7 @@
   "displayName": "KNX Smoke Sensor",
   "name": "@jendrik/homebridge-knx-smoke-sensor",
   "type": "module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Homebridge plugin for KNX Smoke Sensors",
   "license": "Apache-2.0",
   "repository": {
